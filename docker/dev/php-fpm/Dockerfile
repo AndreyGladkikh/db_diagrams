@@ -14,3 +14,5 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod +x /usr/local/bin/install-php-extensions && sync
 
 RUN apt-get update && install-php-extensions mbstring
+
+WORKDIR /app
