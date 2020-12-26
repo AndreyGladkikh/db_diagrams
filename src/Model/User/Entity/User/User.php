@@ -5,9 +5,11 @@ namespace App\Model\User\Entity\User;
 
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class User
 {
+    const STATUS_NEW = 'new';
     const STATUS_WAIT = 'wait';
     const STATUS_ACTIVE = 'active';
 
@@ -35,21 +37,57 @@ class User
      * @var string
      */
     private $status;
+    /**
+     * @var Network[]|ArrayCollection
+     */
+    private $networks;
 
     public function __construct(
         Id $id,
-        Email $email,
-        string $passwordHash,
-        string $token,
         DateTimeImmutable $createdAt
     )
     {
         $this->id = $id;
+        $this->createdAt = $createdAt;
+        $this->status = self::STATUS_WAIT;
+        $this->networks = new ArrayCollection();
+    }
+
+    public function signUpByEmail(
+        Email $email,
+        string $passwordHash,
+        string $token
+    ): void
+    {
+        if(!$this->isNew()) {
+            throw new \Exception('User already signed up.');
+        }
         $this->email = $email;
         $this->passwordHash = $passwordHash;
-        $this->createdAt = $createdAt;
         $this->token = $token;
         $this->status = self::STATUS_WAIT;
+    }
+
+    public function signUpByNetwork(
+        string $network,
+        string $identity
+    ): void
+    {
+        if(!$this->isNew()) {
+            throw new \Exception('User already signed up.');
+        }
+        $this->attachNetwork($network, $identity);
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function attachNetwork(string $network, string $identity)
+    {
+        foreach($this->networks as $existing) {
+            if($existing->isForNetwork($network)) {
+                throw new \Exception('Network is already attached');
+            }
+        }
+        $this->networks->add(new Network($this, $network, $identity));
     }
 
     public function confirmSignUp(): void
@@ -59,6 +97,11 @@ class User
         }
         $this->status = self::STATUS_ACTIVE;
         $this->token = null;
+    }
+
+    public function isNew(): bool
+    {
+        return $this->status === self::STATUS_NEW;
     }
 
     public function isWait(): bool
