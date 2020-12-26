@@ -14,13 +14,18 @@ class UserRepository
     {
 
     }
+    public function add(User $user)
+    {
+
+    }
+
 
     public function hasByEmail(Email $email): bool
     {
 
     }
 
-    public function add(User $user)
+    public function hasByNetworkIdentity(string $network, string $identity): bool
     {
 
     }

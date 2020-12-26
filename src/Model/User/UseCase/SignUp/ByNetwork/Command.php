@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\UseCase\SignUp\Request;
+namespace App\Model\User\UseCase\SignUp\ByNetwork;
 
 
 class Command
@@ -9,10 +9,9 @@ class Command
     /**
      * @var string
      */
-    public $email;
-
+    public $network;
     /**
      * @var string
      */
-    public $password;
+    public $identity;
 }

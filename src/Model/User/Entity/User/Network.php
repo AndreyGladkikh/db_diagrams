@@ -38,4 +38,22 @@ class Network
     {
         return $this->network === $network;
     }
+
+    /**
+     * @return string
+     */
+    public function getNetwork(): string
+    {
+        return $this->network;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentity(): string
+    {
+        return $this->identity;
+    }
+
+
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\UseCase\SignUp\Request;
+namespace App\Model\User\UseCase\SignUp\ByEmail\Request;
 
 
 use App\Model\Flusher;
@@ -65,10 +65,13 @@ class Handler
 
         $user = new User(
             Id::next(),
+            new \DateTimeImmutable()
+        );
+
+        $user->signUpByEmail(
             new Email($email),
             $this->passwordHasher->hash($command->password),
-            $token = $this->tokenizer->generate(),
-            new \DateTimeImmutable()
+            $token = $this->tokenizer->generate()
         );
 
         $this->users->add($user);

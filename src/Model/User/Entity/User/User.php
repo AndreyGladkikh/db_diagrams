@@ -49,7 +49,7 @@ class User
     {
         $this->id = $id;
         $this->createdAt = $createdAt;
-        $this->status = self::STATUS_WAIT;
+        $this->status = self::STATUS_NEW;
         $this->networks = new ArrayCollection();
     }
 
@@ -168,5 +168,13 @@ class User
     public function getToken(): ?string
     {
         return $this->token;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNetworks(): array
+    {
+        return $this->networks->toArray();
     }
 }

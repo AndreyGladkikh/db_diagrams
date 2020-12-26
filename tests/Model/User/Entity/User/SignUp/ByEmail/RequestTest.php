@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Tests\Model\User\Entity\User\SignUp;
+namespace App\Tests\Model\User\Entity\User\SignUp\ByEmail;
 
 
 use App\Model\User\Entity\User\Email;
@@ -16,10 +16,13 @@ class RequestTest extends TestCase
     {
         $user = new User(
             $id = Id::next(),
+            $createdAt = new \DateTimeImmutable()
+        );
+
+        $user->signUpByEmail(
             $email = new Email('test@test.com'),
             $passwordHash = 'passwordHash',
-            $token = (new ConfirmTokenizer())->generate(),
-            $createdAt = new \DateTimeImmutable()
+            $token = (new ConfirmTokenizer())->generate()
         );
 
         self::assertTrue($user->isWait());

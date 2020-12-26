@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\User\UseCase\SignUp\Confirm;
+namespace App\Model\User\UseCase\SignUp\ByEmail\Confirm;
 
 
 use App\Model\Flusher;
