@@ -10,15 +10,15 @@ class UserRepository
     {
     }
 
-    public function findByConfirmToken(string $token): User
-    {
-
-    }
     public function add(User $user)
     {
 
     }
 
+    public function findByConfirmToken(string $token): User
+    {
+
+    }
 
     public function hasByEmail(Email $email): bool
     {
@@ -26,6 +26,11 @@ class UserRepository
     }
 
     public function hasByNetworkIdentity(string $network, string $identity): bool
+    {
+
+    }
+
+    public function getByEmail(Email $email): User
     {
 
     }

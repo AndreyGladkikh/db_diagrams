@@ -41,6 +41,10 @@ class User
      * @var Network[]|ArrayCollection
      */
     private $networks;
+    /**
+     * @var ResetToken|null
+     */
+    private $resetToken;
 
     public function __construct(
         Id $id,
@@ -59,7 +63,7 @@ class User
         string $token
     ): void
     {
-        if(!$this->isNew()) {
+        if (!$this->isNew()) {
             throw new \Exception('User already signed up.');
         }
         $this->email = $email;
@@ -73,7 +77,7 @@ class User
         string $identity
     ): void
     {
-        if(!$this->isNew()) {
+        if (!$this->isNew()) {
             throw new \Exception('User already signed up.');
         }
         $this->attachNetwork($network, $identity);
@@ -82,8 +86,8 @@ class User
 
     public function attachNetwork(string $network, string $identity)
     {
-        foreach($this->networks as $existing) {
-            if($existing->isForNetwork($network)) {
+        foreach ($this->networks as $existing) {
+            if ($existing->isForNetwork($network)) {
                 throw new \Exception('Network is already attached');
             }
         }
@@ -92,7 +96,7 @@ class User
 
     public function confirmSignUp(): void
     {
-        if(!$this->isWait()) {
+        if (!$this->isWait()) {
             throw new \Exception('User already confirmed.');
         }
         $this->status = self::STATUS_ACTIVE;
@@ -112,6 +116,17 @@ class User
     public function isActive(): bool
     {
         return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function requestPasswordReset(ResetToken $resetToken, DateTimeImmutable $date)
+    {
+        if (!$this->email) {
+            throw new \Exception('Email is not specified.');
+        }
+        if($this->resetToken && !$this->resetToken->isExpiredTo($date)) {
+            throw new \Exception('Resetting is already requested.');
+        }
+        $this->resetToken = $resetToken;
     }
 
     /**
@@ -176,5 +191,13 @@ class User
     public function getNetworks(): array
     {
         return $this->networks->toArray();
+    }
+
+    /**
+     * @return ResetToken|null
+     */
+    public function getResetToken(): ?ResetToken
+    {
+        return $this->resetToken;
     }
 }

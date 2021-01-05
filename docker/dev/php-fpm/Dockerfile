@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y wget git unzip \
-    && pecl install xdebug-3.0.1 \
+    && pecl install xdebug-2.9.1 \
     && docker-php-ext-enable xdebug
 
 RUN wget https://getcomposer.org/installer -O - -q \
