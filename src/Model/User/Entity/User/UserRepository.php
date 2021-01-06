@@ -34,4 +34,9 @@ class UserRepository
     {
 
     }
+
+    public function findByResetToken(string $resetToken): User
+    {
+
+    }
 }

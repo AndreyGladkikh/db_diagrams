@@ -51,7 +51,16 @@ class RequestTest extends TestCase
 
     public function testWithoutEmail()
     {
+        $now = new \DateTimeImmutable();
+        $token = new ResetToken('token', $now->modify('+1 day'));
 
+        $user = new User(
+            Id::next(),
+            new \DateTimeImmutable()
+        );
+
+        self::expectExceptionMessage('Email is not specified.');
+        $user->requestPasswordReset($token, $now);
     }
 
     private function buildUserSignedUpByEmail(): User

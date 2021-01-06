@@ -129,6 +129,17 @@ class User
         $this->resetToken = $resetToken;
     }
 
+    public function resetPassword(DateTimeImmutable $date, string $passwordHash): void
+    {
+        if(!$this->resetToken) {
+            throw new \Exception('Resetting is not requested.');
+        }
+        if($this->resetToken->isExpiredTo($date)) {
+            throw new \Exception('Reset token is expired.');
+        }
+        $this->passwordHash = $passwordHash;
+    }
+
     /**
      * @return Email
      */
