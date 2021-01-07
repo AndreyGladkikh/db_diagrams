@@ -8,13 +8,14 @@ use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\ResetToken;
 use App\Model\User\Entity\User\User;
+use App\Tests\Builder\User\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
 {
     public function testSuccess()
     {
-        $user = $this->buildUserSignedUpByEmail();
+        $user = (new UserBuilder())->viaEmail()->build();
         $user->requestPasswordReset(
             new ResetToken(
                 $token = 'token',
@@ -30,7 +31,7 @@ class RequestTest extends TestCase
     {
         $now = new \DateTimeImmutable();
         $token = new ResetToken('token', $now->modify('+1 day'));
-        $user = $this->buildUserSignedUpByEmail();
+        $user = (new UserBuilder())->viaEmail()->build();
         $user->requestPasswordReset($token, $now);
 
         self::expectExceptionMessage('Resetting is already requested.');
@@ -41,7 +42,7 @@ class RequestTest extends TestCase
     {
         $now = new \DateTimeImmutable();
         $token = new ResetToken('token', $now->modify('+1 day'));
-        $user = $this->buildUserSignedUpByEmail();
+        $user = (new UserBuilder())->viaEmail()->build();
         $user->requestPasswordReset($token, $now);
         self::assertEquals($token, $user->getResetToken());
         $token = new ResetToken('token', $now->modify('+3 day'));
@@ -61,19 +62,5 @@ class RequestTest extends TestCase
 
         self::expectExceptionMessage('Email is not specified.');
         $user->requestPasswordReset($token, $now);
-    }
-
-    private function buildUserSignedUpByEmail(): User
-    {
-        $user = new User(
-            Id::next(),
-            new \DateTimeImmutable()
-        );
-        $user->signUpByEmail(
-            new Email('test@test.com'),
-            'hash',
-            'token'
-        );
-        return $user;
     }
 }

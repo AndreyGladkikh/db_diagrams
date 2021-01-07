@@ -30,6 +30,11 @@ class UserRepository
 
     }
 
+    public function get(Id $id): User
+    {
+
+    }
+
     public function getByEmail(Email $email): User
     {
 

@@ -45,6 +45,10 @@ class User
      * @var ResetToken|null
      */
     private $resetToken;
+    /**
+     * @var Role
+     */
+    private $role;
 
     public function __construct(
         Id $id,
@@ -55,6 +59,7 @@ class User
         $this->createdAt = $createdAt;
         $this->status = self::STATUS_NEW;
         $this->networks = new ArrayCollection();
+        $this->role = Role::user();
     }
 
     public function signUpByEmail(
@@ -82,16 +87,6 @@ class User
         }
         $this->attachNetwork($network, $identity);
         $this->status = self::STATUS_ACTIVE;
-    }
-
-    public function attachNetwork(string $network, string $identity)
-    {
-        foreach ($this->networks as $existing) {
-            if ($existing->isForNetwork($network)) {
-                throw new \Exception('Network is already attached');
-            }
-        }
-        $this->networks->add(new Network($this, $network, $identity));
     }
 
     public function confirmSignUp(): void
@@ -138,6 +133,24 @@ class User
             throw new \Exception('Reset token is expired.');
         }
         $this->passwordHash = $passwordHash;
+    }
+
+    public function attachNetwork(string $network, string $identity)
+    {
+        foreach ($this->networks as $existing) {
+            if ($existing->isForNetwork($network)) {
+                throw new \Exception('Network is already attached');
+            }
+        }
+        $this->networks->add(new Network($this, $network, $identity));
+    }
+
+    public function changeRole(Role $role)
+    {
+        if($this->role->isEqual($role)) {
+            throw new \Exception('Role is already the same.');
+        }
+        $this->role = $role;
     }
 
     /**
