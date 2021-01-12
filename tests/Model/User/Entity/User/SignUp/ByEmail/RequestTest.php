@@ -33,5 +33,7 @@ class RequestTest extends TestCase
         self::assertEquals($passwordHash, $user->getPasswordHash());
         self::assertEquals($token, $user->getToken());
         self::assertEquals($createdAt, $user->getCreatedAt());
+
+        self::assertTrue($user->getRole()->isUser());
     }
 }

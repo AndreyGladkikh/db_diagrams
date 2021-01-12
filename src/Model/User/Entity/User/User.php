@@ -224,4 +224,12 @@ class User
     {
         return $this->resetToken;
     }
+
+    /**
+     * @return Role
+     */
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
 }
