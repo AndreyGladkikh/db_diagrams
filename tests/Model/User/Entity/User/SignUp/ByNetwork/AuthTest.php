@@ -29,6 +29,8 @@ class AuthTest extends TestCase
         self::assertInstanceOf(Network::class, $first = reset($networks));
         self::assertEquals($network, $first->getNetwork());
         self::assertEquals($identity, $first->getIdentity());
+
+        self::assertTrue($user->getRole()->isUser());
     }
 
     public function testAlready()
