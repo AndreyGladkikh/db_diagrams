@@ -6,8 +6,15 @@ namespace App\Model\User\Entity\User;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="user_users")
+ */
+class User implements UserInterface
 {
     const STATUS_NEW = 'new';
     const STATUS_WAIT = 'wait';
@@ -15,26 +22,38 @@ class User
 
     /**
      * @var Id
+     * @ORM\Column(type="user_user_id")
+     * @ORM\Id()
      */
     private $id;
     /**
+     * @var Name
+     * @ORM\Embedded(class="Name", columnPrefix="name_")
+     */
+    private $name;
+    /**
      * @var Email
+     * @ORM\Column(type="user_user_email", nullable=true)
      */
     private $email;
     /**
      * @var string
+     * @ORM\Column(type="string", nullable=true, name="password_hash")
      */
     private $passwordHash;
     /**
      * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", name="created_at")
      */
     private $createdAt;
     /**
      * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $token;
+    private $confirmToken;
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $status;
     /**
@@ -43,10 +62,12 @@ class User
     private $networks;
     /**
      * @var ResetToken|null
+     * @ORM\Embedded(class="ResetToken", columnPrefix="reset_token_")
      */
     private $resetToken;
     /**
      * @var Role
+     * @ORM\Column(type="user_user_role")
      */
     private $role;
 
@@ -65,7 +86,7 @@ class User
     public function signUpByEmail(
         Email $email,
         string $passwordHash,
-        string $token
+        string $confirmToken
     ): void
     {
         if (!$this->isNew()) {
@@ -73,7 +94,7 @@ class User
         }
         $this->email = $email;
         $this->passwordHash = $passwordHash;
-        $this->token = $token;
+        $this->confirmToken = $confirmToken;
         $this->status = self::STATUS_WAIT;
     }
 
@@ -95,7 +116,7 @@ class User
             throw new \Exception('User already confirmed.');
         }
         $this->status = self::STATUS_ACTIVE;
-        $this->token = null;
+        $this->confirmToken = null;
     }
 
     public function isNew(): bool
@@ -204,9 +225,9 @@ class User
     /**
      * @return string
      */
-    public function getToken(): ?string
+    public function getConfirmToken(): ?string
     {
-        return $this->token;
+        return $this->confirmToken;
     }
 
     /**
@@ -231,5 +252,48 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    /**
+     * @ORM\PostLoad()
+     */
+    public function checkEmbeds(): void
+    {
+        if($this->resetToken->isEmpty()) {
+            $this->resetToken = null;
+        }
+    }
+
+    public function getRoles()
+    {
+        return [$this->role->getValue()];
+    }
+
+    public function getPassword()
+    {
+        return $this->passwordHash;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    /**
+     * @return Name
+     */
+    public function getName(): Name
+    {
+        return $this->name;
     }
 }

@@ -32,4 +32,9 @@ class Id
     {
         return $this->value;
     }
+
+    public function __toString(): string
+    {
+        return $this->getValue();
+    }
 }

@@ -14,4 +14,10 @@ class Command
      * @var string
      */
     public $password;
+
+    public function __construct(string $token, string $password)
+    {
+        $this->token = $token;
+        $this->password = $password;
+    }
 }
