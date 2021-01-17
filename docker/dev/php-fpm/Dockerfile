@@ -1,11 +1,9 @@
 FROM php:7.4-fpm
 
-RUN apt-get update && apt-get install -y wget git unzip \
-    && pecl install xdebug-2.9.1 \
-    && docker-php-ext-enable xdebug
+RUN apt-get update && apt-get install -y wget unzip
 
 RUN wget https://getcomposer.org/installer -O - -q \
-    | php -- --install-dir=/bin --filename=composer --quiet
+    | php -- --install-dir=/bin --filename=composer --quiet --version=1.10.15
 
 COPY php.ini /usr/local/etc/php/php.ini
 
@@ -13,6 +11,6 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 
 RUN chmod +x /usr/local/bin/install-php-extensions && sync
 
-RUN apt-get update && install-php-extensions mbstring
+RUN apt-get update && install-php-extensions pdo_pgsql xdebug-2.9.1
 
 WORKDIR /app
