@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\User;
+namespace App\Controller\Api\User;
 
 
 use App\ReadModel\User\UserFetcher;

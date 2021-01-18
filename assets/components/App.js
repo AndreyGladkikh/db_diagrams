@@ -6,6 +6,7 @@ import {
     Link
 } from "react-router-dom";
 import Header from "./Header";
+import Routes from "./Routes";
 
 class App extends React.Component {
     state = {
@@ -15,6 +16,7 @@ class App extends React.Component {
         return (
             <Router>
                 <Header />
+                <Routes />
             </Router>
         );
     }

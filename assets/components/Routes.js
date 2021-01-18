@@ -10,8 +10,6 @@ import Home from "./pages/Home";
 
 class Routes extends React.Component {
     render() {
-        let match = useRouteMatch();
-
         return (
             <Switch>
                 <Route path="/signup">
@@ -19,9 +17,6 @@ class Routes extends React.Component {
                 </Route>
                 <Route path="/signin">
                     <SignIn />
-                </Route>
-                <Route path={`${match.path}/projects/:projectId`}>
-                    <ProjectWorkspace />
                 </Route>
                 <Route path="/">
                     <Home />
