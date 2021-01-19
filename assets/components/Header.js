@@ -8,6 +8,16 @@ import {
 } from "react-router-dom";
 
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleClickLogout = this.handleClickLogout.bind(this);
+    }
+
+    handleClickLogout() {
+        localStorage.removeItem('authToken');
+    }
+
     render() {
         return (
             <div className={"main-header"}>
@@ -25,7 +35,7 @@ class Header extends React.Component {
                         <span className={"login"}>
                             <Link to={"/signin"}>Войти</Link>
                         </span>
-                        <span className={"logout"}>Выйти</span>
+                        <span className={"logout"} onClick={this.handleClickLogout}>Выйти</span>
                     </div>
                 </div>
                 <div className={"menu-wrap"}>

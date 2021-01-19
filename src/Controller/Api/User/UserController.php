@@ -13,7 +13,7 @@ class UserController extends AbstractController
     /**
      * @param UserFetcher $userFetcher
      * @return object|\Symfony\Component\HttpFoundation\JsonResponse
-     * @Route("/users")
+     * @Route("/users", methods={"GET"})
      */
     public function getAll(UserFetcher $userFetcher)
     {

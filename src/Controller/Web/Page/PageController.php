@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PageController extends AbstractController
 {
     /**
-     * @Route("/{reactRouting}", name="index", defaults={"reactRouting": null})
+     * @Route("/{reactRouting}", name="index", defaults={"reactRouting": null}, methods={"GET"})
      */
     public function index()
     {

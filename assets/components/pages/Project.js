@@ -7,13 +7,14 @@ class Project extends React.Component {
         this.state = {
             tables: null
         };
+
+        this.handleClickCreateTable = this.handleClickCreateTable.bind(this);
     }
 
     componentDidMount() {
         fetch('/api/tables?user_id=&project_id=', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json;charset=utf-8',
                 'Authorization': 'Bearer ' + localStorage.getItem('authToken')
             }
         })
@@ -21,7 +22,27 @@ class Project extends React.Component {
             .then(response => {
                 console.log(response);
             });
-        console.log(localStorage.getItem('authToken'), );
+    }
+
+    handleClickCreateTable() {
+        var body = [];
+        for (var property in this.state) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(this.state[property]);
+            body.push(encodedKey + "=" + encodedValue);
+        }
+        body = body.join("&");
+
+        fetch('/api/projects/:projectId/tables', {
+            method: 'POST',
+            body: body,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+            }
+        })
+            .then(response => response.json())
+            .then(response => console.log(response))
     }
 
     render() {

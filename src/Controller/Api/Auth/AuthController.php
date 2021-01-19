@@ -12,7 +12,10 @@ use App\Model\User\UseCase\SignUp;
 class AuthController extends AbstractController
 {
     /**
-     * @Route("/signup")
+     * @Route("/signup", methods={"POST"})
+     * @param Request $request
+     * @param SignUp\ByEmail\Request\Handler $handler
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function signup(Request $request, SignUp\ByEmail\Request\Handler $handler)
     {

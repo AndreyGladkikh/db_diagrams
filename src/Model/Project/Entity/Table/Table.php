@@ -53,7 +53,8 @@ class Table
         Id $id, string $name,
         string $description,
         string $definition,
-        string $domElementCoordinates
+        string $domElementCoordinates,
+        Project $project
     )
     {
         $this->id = $id;
@@ -61,6 +62,7 @@ class Table
         $this->description = $description;
         $this->definition = $definition;
         $this->domElementCoordinates = $domElementCoordinates;
+        $this->project = $project;
     }
 
     /**
