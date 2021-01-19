@@ -12,7 +12,7 @@ class Project extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/tables?user_id=&project_id=', {
+        fetch('/api/projects/{:projectId}/tables', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('authToken')

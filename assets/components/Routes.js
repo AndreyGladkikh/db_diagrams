@@ -6,8 +6,9 @@ import {
 } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import ProjectWorkspace from "./ProjectWorkspace";
 import Home from "./pages/Home";
+import Projects from "./pages/Projects";
+import Project from "./pages/Project";
 
 function Routes() {
     let match = useRouteMatch();
@@ -20,11 +21,14 @@ function Routes() {
             <Route path="/signin">
                 <SignIn />
             </Route>
-            <Route path={`${match.path}/projects/mine/:projectId`}>
-                <ProjectWorkspace />
+            <Route path="/projects">
+                <Projects />
             </Route>
             <Route path="/project">
-                <ProjectWorkspace />
+                <Project />
+            </Route>
+            <Route path={`${match.path}/projects/:projectId`}>
+                <Project />
             </Route>
             <Route path="/">
                 <Home />

@@ -40,7 +40,6 @@ class Header extends React.Component {
                 </div>
                 <div className={"menu-wrap"}>
                     <ul className={"menu"}>
-                        <NavLink to="/projects/my">Мои проекты</NavLink>
                         <NavLink to="/project">Проект</NavLink>
                     </ul>
                 </div>
