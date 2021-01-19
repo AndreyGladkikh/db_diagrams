@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import ProjectWorkspace from "./pages/ProjectWorkspace";
+import ProjectWorkspace from "./ProjectWorkspace";
 import Home from "./pages/Home";
 
 function Routes() {
