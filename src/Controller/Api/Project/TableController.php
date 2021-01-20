@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\Project;
+namespace App\Controller\Api\Project;
 
 
 use App\Model\Project\UseCase\Table\CreateBulk;
