@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TableController extends AbstractController
 {
     /**
-     * @Route("/project/{projectId}/tables", methods={"POST"})
+     * @Route("/projects/{projectId}/tables", methods={"POST"})
      * @param Request $request
      * @param string $projectId
      * @param CreateBulk\Handler $handler
